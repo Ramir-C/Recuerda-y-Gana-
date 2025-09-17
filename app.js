@@ -1,18 +1,17 @@
+// app.js
 const express = require("express");
 const mysql = require("mysql2");
 const path = require("path");
-require("dotenv").config(); // 👈 Cargar variables desde .env
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Configuración de la conexión a MySQL
 const db = mysql.createConnection({
-  host: process.env.MYSQL_HOST,
-  port: process.env.MYSQL_PORT,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
+  host: process.env.MYSQLHOST || "mysql.railway.internal",    // o tu host en Railway
+  user: process.env.MYSQLUSER || "root",         // tu usuario
+  password: process.env.MYSQLPASSWORD || "ALBkhRlwZjVOsahVgXsYXznLXOVrABlf", // tu contraseña
+  database: process.env.MYSQLDATABASE || "railway",  // tu base de datos
 });
 
 // Conectar a la base
@@ -47,4 +46,6 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
+
+
 
