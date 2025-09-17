@@ -1,8 +1,8 @@
-require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const initializeDatabase = require("./db");
+const initializeDatabase = require("./db"); // importa la función correctamente
+require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,8 +13,7 @@ app.use(express.static(path.join(__dirname, "public")));
 let db;
 
 (async () => {
-  // Inicializar la base de datos antes de arrancar el servidor
-  db = await initializeDatabase();
+  db = await initializeDatabase(); // ✅ ahora es una función async real
 
   // Ruta para guardar datos
   app.post("/save", async (req, res) => {
