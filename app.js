@@ -8,10 +8,10 @@ const PORT = process.env.PORT || 3000;
 
 // Configuración de la conexión a MySQL
 const db = mysql.createConnection({
-  host: "localhost",    // o tu host en Railway
-  user: "root",         // tu usuario
-  password: "tu_password", // tu contraseña
-  database: "mi_base",  // tu base de datos
+  host: process.env.MYSQLHOST || "localhost",    // o tu host en Railway
+  user: process.env.MYSQLUSER || "root",         // tu usuario
+  password: process.env.MYSQLPASSWORD || "tu_password", // tu contraseña
+  database: process.env.MYSQLDATABASE || "mi_base",  // tu base de datos
 });
 
 // Conectar a la base

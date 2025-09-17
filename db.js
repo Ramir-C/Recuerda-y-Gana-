@@ -5,16 +5,16 @@ require("dotenv").config();
 module.exports = async function initializeDatabase() {
   try {
     const connection = await mysql.createConnection({
-      host: process.env.DB_HOST || "mysql.railway.internal",
-      user: process.env.DB_USER || "root",
-      password: process.env.DB_PASSWORD || "ALBkhRlwZjVOsahVgXsYXznLXOVrABlf",
-      port: process.env.DB_PORT || 3306,
+      host: process.env.MYSQLHOST || "mysql.railway.internal",
+      user: process.env.MYSQLUSER || "root",
+      password: process.env.MYSQLPASSWORD || "ALBkhRlwZjVOsahVgXsYXznLXOVrABlf",
+      port: process.env.MYSQLPORT || 3306,
       multipleStatements: true
     });
 
     console.log("✅ Conectado al servidor MySQL");
 
-    const dbName = process.env.DB_NAME || "juego";
+  const dbName = process.env.MYSQLDATABASE || "juego";
 
     // Crear base de datos si no existe
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\``);
