@@ -7,11 +7,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Configuración de la conexión a MySQL
-const db = mysql.createConnection({
-  host: process.env.MYSQLHOST || "mysql.railway.internal",    // o tu host en Railway
-  user: process.env.MYSQLUSER || "root",         // tu usuario
-  password: process.env.MYSQLPASSWORD || "ALBkhRlwZjVOsahVgXsYXznLXOVrABlf", // tu contraseña
-  database: process.env.MYSQLDATABASE || "railway",  // tu base de datos
+MYSQL_DATABASE="railway"
+MYSQL_PUBLIC_URL="mysql://root:ALBkhRlwZjVOsahVgXsYXznLXOVrABlf@shortline.proxy.rlwy.net:42180/railway"
+MYSQL_ROOT_PASSWORD="ALBkhRlwZjVOsahVgXsYXznLXOVrABlf"
+MYSQL_URL="mysql://root:ALBkhRlwZjVOsahVgXsYXznLXOVrABlf@mysql.railway.internal:3306/railway"
+MYSQLDATABASE="railway"
+MYSQLHOST="mysql.railway.internal"
+MYSQLPASSWORD="ALBkhRlwZjVOsahVgXsYXznLXOVrABlf"
+MYSQLPORT="3306"
+MYSQLUSER="root"
 });
 
 // Conectar a la base
