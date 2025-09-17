@@ -7,6 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Configuración de la conexión a MySQL
+const db = mysql.createConnection({
 MYSQL_DATABASE="railway"
 MYSQL_PUBLIC_URL="mysql://root:ALBkhRlwZjVOsahVgXsYXznLXOVrABlf@shortline.proxy.rlwy.net:42180/railway"
 MYSQL_ROOT_PASSWORD="ALBkhRlwZjVOsahVgXsYXznLXOVrABlf"
