@@ -1,28 +1,14 @@
 {
-  "name": "recuerda-y-gana",
+  "name": "mi-proyecto-mysql",
   "version": "1.0.0",
-  "description": "Juego Recuerda y Gana con Node.js, Express y MySQL",
-  "main": "server.js",
+  "description": "Ejemplo Node + Express + MySQL",
+  "main": "app.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node app.js"
   },
   "dependencies": {
-    "body-parser": "^1.20.2",
-    "dotenv": "^17.2.2",
-    "express": "^4.21.2",
-    "mysql2": "^3.15.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.2"
-  },
-  "keywords": [
-    "nodejs",
-    "express",
-    "mysql",
-    "railway",
-    "juego"
-  ],
-  "author": "Tu Nombre",
-  "license": "MIT"
+    "express": "^4.19.0",
+    "mysql2": "^3.9.7"
+  }
 }
+
