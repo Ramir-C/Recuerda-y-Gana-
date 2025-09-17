@@ -1,50 +1,45 @@
+// db.js
+const mysql = require("mysql2");
 require("dotenv").config();
-const express = require("express");
-const path = require("path");
-const bodyParser = require("body-parser");
-const connection = require("./db");
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || ""
+});
 
-// Middleware
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "public")));
+// 1️⃣ Crear base de datos si no existe
+connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME || 'juego'}\``, (err) => {
+  if (err) {
+    console.error("❌ Error al crear la base de datos:", err);
+    return;
+  }
+  console.log("✅ Base de datos asegurada");
 
-// Ruta para guardar datos
-app.post("/save", (req, res) => {
-  const { nombre, intento, tiempo, errores } = req.body;
-
-  const sql = "INSERT INTO resultados (nombre, intento, tiempo, errores) VALUES (?, ?, ?, ?)";
-  connection.query(sql, [nombre, intento, tiempo, errores], (err, result) => {
+  // 2️⃣ Cambiar a la base de datos
+  connection.changeUser({ database: process.env.DB_NAME || 'juego' }, (err) => {
     if (err) {
-      console.error("❌ Error al guardar en MySQL:", err);
-      return res.status(500).send("Error al guardar en la base de datos");
+      console.error("❌ Error al cambiar a la base de datos:", err);
+      return;
     }
-    res.status(200).send("✅ Datos guardados correctamente");
+    console.log(`✅ Conectado a la base de datos ${process.env.DB_NAME || 'juego'}`);
+
+    // 3️⃣ Crear tabla resultados si no existe
+    connection.query(`
+      CREATE TABLE IF NOT EXISTS resultados (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nombre VARCHAR(100) NOT NULL,
+        intento INT NOT NULL,
+        tiempo FLOAT NOT NULL,
+        errores INT NOT NULL,
+        fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `, (err) => {
+      if (err) console.error("❌ Error al crear la tabla resultados:", err);
+      else console.log("✅ Tabla resultados lista");
+    });
   });
 });
 
-// Ruta para mostrar resultados
-app.get("/api/resultados", (req, res) => {
-  connection.query("SELECT * FROM resultados ORDER BY id DESC", (err, rows) => {
-    if (err) {
-      console.error("❌ Error al obtener datos:", err);
-      return res.status(500).send("Error en la base de datos");
-    }
-    res.json(rows);
-  });
-});
+module.exports = connection;
 
-// Rutas de páginas
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-app.get("/resultados", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "resultados.html"));
-});
-
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor escuchando en http://localhost:${PORT}`);
-});
